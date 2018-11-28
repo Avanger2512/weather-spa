@@ -65,12 +65,11 @@ export default {
         if (this.searchItems.list.length === 0 ) {
           this.loadData = false;
           this.loading = false;
-
         } else {
           this.loadData = true;
           this.loading = false;
         }
-      },200)
+      }, 200)
     },
     onErrorText() {
       this.errorText = this.search;
@@ -82,9 +81,8 @@ export default {
       searchItems2: 'getCountry'
     }),
     getIcon() {
-      return `http://openweathermap.org/img/w/${this.searchItems.list[0].weather[0].icon}.png`
-    },
-
+      return `http://openweathermap.org/img/w/${this.searchItems.list[0].weather[0].icon}.png`;
+    }
   },
   components: {
     appSpinner,
@@ -110,6 +108,7 @@ export default {
     max-width: 300px
     width: 100%
     border-radius: 5px
+    appearance: none
 
   button
     background: $green

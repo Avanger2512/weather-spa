@@ -49,11 +49,13 @@ export default {
         .then(coordinates => {
           this.$store.dispatch('getGeolocation', coordinates);
         })
-        .then( ()=> {
+        .then(()=> {
           this.$store.dispatch('loadItems');
+        })
+        .then(()=> {
           setTimeout(()=> {
             this.loading = false;
-          },200)
+          }, 200);
         })
         .catch( ()=> {
             this.loading = false;
@@ -110,6 +112,5 @@ export default {
     &__icon
       display: inline-block
       vertical-align: middle
-
 
 </style>

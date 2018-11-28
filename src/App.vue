@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Welcome to weather app 🙈</h1>
+    <h1>{{ title }}</h1>
 
     <div class="tabs">
       <div class="tabs__caption">
@@ -13,6 +13,7 @@
             {{ tab }}
         </button>
       </div>
+
       <div class="tabs__in">
         <div v-if="activeTab"
           class="tabs__content">
@@ -20,7 +21,6 @@
           <div class="container">
             <app-info></app-info>
           </div>
-
         </div>
         <div v-else
           class="tabs__content">
@@ -31,7 +31,6 @@
       </div>
     </div>
 
-
   </div>
 </template>
 
@@ -39,34 +38,28 @@
 import appInfo from './components/Info.vue';
 import appSearch from './components/Search.vue';
 
-
-
 export default {
   name: 'app',
   data() {
     return {
-
+      title: 'Welcome to weather app 🙈',
       currentTab: 'my-weather',
       tabs: ['my-weather', 'search']
     }
   },
-
   components: {
     appInfo,
     appSearch
   },
-
   computed: {
     activeTab() {
       return this.currentTab === this.tabs[0] ? true : false
     }
-  },
-
+  }
 }
 </script>
 
 <style lang="sass">
-
 @import '@/assets/helpers/_reset.sass'
 @import '@/assets/helpers/_variables.sass'
 @import '@/assets/helpers/_mixins.sass'

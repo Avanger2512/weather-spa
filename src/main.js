@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueResource);
 Vue.use(VueGeolocation);
-
+Vue.http.options.root = 'https://api.openweathermap.org/data/2.5/';
 
 new Vue({
   store,

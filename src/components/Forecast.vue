@@ -37,6 +37,7 @@ export default {
     overflow: auto
     margin-bottom: 50px
     padding-bottom: 20px
+    overflow-scrolling: auto
     &__in
       display: inline-block
       vertical-align: top
