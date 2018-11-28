@@ -25,7 +25,7 @@
         <div v-else
           class="tabs__content">
           <div class="container">
-            <p>search</p>
+            <app-search></app-search>
           </div>
         </div>
       </div>
@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import appInfo from './components/Info.vue'
+import appInfo from './components/Info.vue';
+import appSearch from './components/Search.vue';
 
 
 
@@ -44,12 +45,15 @@ export default {
   name: 'app',
   data() {
     return {
+
       currentTab: 'my-weather',
       tabs: ['my-weather', 'search']
     }
   },
+
   components: {
-    appInfo
+    appInfo,
+    appSearch
   },
 
   computed: {
@@ -65,6 +69,7 @@ export default {
 
 @import '@/assets/helpers/_reset.sass'
 @import '@/assets/helpers/_variables.sass'
+@import '@/assets/helpers/_mixins.sass'
 
 #app
   font-family: 'Avenir', Helvetica, Arial, sans-serif
@@ -74,9 +79,14 @@ export default {
   color: $black
   margin-top: 60px
   min-width: 320px
+  +r(767)
+    margin-top: 20px
 
 h1
   margin-bottom: 40px
+  +r(767)
+    margin-bottom: 20px
+    font-size: 22px
 
 h5
   margin-bottom: 10px
@@ -88,6 +98,9 @@ h5
 
 .text-left
   text-align: left
+
+.text-center
+  text-align: center
 
 button
   background: transparent
@@ -115,5 +128,6 @@ img
   max-width: 1024px
   width: 100%
   margin: 0 auto
-  
+  padding: 0 20px
+
 </style>

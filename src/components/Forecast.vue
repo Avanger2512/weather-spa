@@ -10,7 +10,7 @@
       <div class="forecast__item">
         <img :src="`http://openweathermap.org/img/w/${item.weather[0].icon}.png`"
           class="forecast__icon"
-          id="wicon"
+          :id="`wicon-${index}`"
           alt="Weather icon" >
       </div>
       <div class="forecast__item">
@@ -23,13 +23,14 @@
 
 <script>
 export default {
+  name: 'forecast',
   props: {
     options: Array
   }
 }
 </script>
 
-<style lang="sass" scope>
+<style lang="sass" scoped>
 
   .forecast
     white-space: nowrap

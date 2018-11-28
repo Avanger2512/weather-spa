@@ -2,70 +2,64 @@
   <div class="weather">
     <h2 class="title">Current weather in your city</h2>
 
-    <div class="weather__city">
-      <h3>{{ items.city.name }}, {{ items.city.country }}</h3>
-      <p>{{ items.list[0].weather[0].description }}</p>
-      <h2>{{ getTemp }}&nbsp;°C</h2>
-    </div>
+    <template v-if="loading">
+      <app-spinner></app-spinner>
+    </template>
+    <template v-else>
+      <div class="weather__in">
+        <div class="weather__desc text-left">
 
-    <div class="weather__in">
-      <div class="weather__desc text-left">
-        <h5>Description on the {{ items.list[0].dt_txt }}</h5>
-        <ul class="weather__list">
-          <li class="weather__item">
-            <p class="weather__title">Minimum temperature at the moment</p>
-            <p class="weather__meta"> {{ items.list[0].main.temp_min }}&nbsp;°C</p>
-          </li>
-          <li class="weather__item">
-            <p class="weather__title">Maximum temperature at the moment.</p>
-            <p class="weather__meta"> {{ items.list[0].main.temp_max }}&nbsp;°C</p>
-          </li>
-          <li class="weather__item">
-            <p class="weather__title">Atmospheric pressure</p>
-            <p class="weather__meta"> {{ items.list[0].main.pressure }} hPa</p>
-          </li>
-          <li class="weather__item">
-            <p class="weather__title">Humidity</p>
-            <p class="weather__meta"> {{ items.list[0].main.humidity }} %</p>
-          </li>
-          <li class="weather__item">
-            <p class="weather__title">Wind</p>
-            <p class="weather__meta"> {{ items.list[0].wind.speed }} m/s</p>
-          </li>
-          <li class="weather__item">
-            <p class="weather__title">Atmospheric pressure on the sea level</p>
-            <p class="weather__meta"> {{ items.list[0].main.sea_level }} hPa</p>
-          </li>
-        </ul>
-      </div>
+          <app-city-desc :options="items"></app-city-desc>
 
-      <div class="weather__forecast text-left">
-        <h5>Forecast</h5>
-        <app-forecast :options="items.list"></app-forecast>
+          <h5>Description on the {{ items.list[0].dt_txt }}</h5>
+          <app-weather-desc :desc="items.list[0]"></app-weather-desc>
+        </div>
+
+        <div class="weather__forecast text-left">
+          <h5>Forecast</h5>
+          <app-forecast :options="items.list"></app-forecast>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
 import appForecast from './Forecast.vue'
+import appSpinner from './Spinner.vue'
+import appWeatherDesc from './Weather-desc.vue'
+import appCityDesc from './City-desc.vue'
 
 
 export default {
+  name: 'info',
+  data() {
+    return {
+      loading: false,
+    }
+  },
   created() {
-    this.$getLocation()
-      .then(coordinates => {
-        this.$store.dispatch('getGeolocation', coordinates);
-      })
-      .then(coordinates => {
-        this.$store.dispatch('loadItems');
-      })
-      .catch(
-        error => {
-          console.log(error);
-        }
-      )
+    this.getDataFromApi();
+  },
+  methods: {
+    getDataFromApi() {
+      this.loading = true;
+      this.$getLocation()
+        .then(coordinates => {
+          this.$store.dispatch('getGeolocation', coordinates);
+        })
+        .then( ()=> {
+          this.$store.dispatch('loadItems');
+          setTimeout(()=> {
+            this.loading = false;
+          },200)
+        })
+        .catch( ()=> {
+            this.loading = false;
+          }
+        )
+    }
   },
   computed: {
     ...mapGetters({
@@ -76,12 +70,15 @@ export default {
     }
   },
   components: {
-    appForecast
+    appForecast,
+    appSpinner,
+    appWeatherDesc,
+    appCityDesc
   }
 }
 </script>
 
-<style lang="sass" scope>
+<style lang="sass">
   @import '@/assets/helpers/_variables.sass'
 
   .weather
@@ -91,7 +88,6 @@ export default {
     &__desc
       margin-bottom: 40px
     &__in
-      padding: 0 20px
       text-align: left
     &__city
       margin-bottom: 20px
